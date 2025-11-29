@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animal Sound Kit 🐾</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      text-align: center;
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      padding: 20px;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin: 40px 0 30px;
+      animation: fadeInDown 1s ease;
+    }
+
+    #title {
+      font-size: 4rem;
+      color: #FFD700;
+      font-family: 'Fredoka One', cursive;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.7), 
+                   3px 3px 0 #FF4500;
+      margin-bottom: 15px;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      font-size: 1.5rem;
+      color: #FFB6C1;
+      font-weight: 400;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .animal-set {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 20px;
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .animal-btn {
+      position: relative;
+      outline: none;
+      border: none;
+      font-size: 3.5rem;
+      font-family: 'Fredoka One', cursive;
+      font-weight: 900;
+      border-radius: 20px;
+      width: 140px;
+      height: 140px;
+      margin: 10px;
+      background: white;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .animal-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.8;
+      z-index: -1;
+    }
+
+    .animal-btn .animal-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      margin-top: 5px;
+    }
+
+    .animal-btn .key-indicator {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #1a2a6c;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Animal-specific styles */
+    .lion::before { background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/lion.jpg') center/cover; }
+    .elephant::before { background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://placehold.co/300x300/808080/FFFFFF?text=Elephant') center/cover; }
+    .monkey::before { background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://placehold.co/300x300/8B4513/FFFFFF?text=Monkey') center/cover; }
+    .dolphin::before { background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://placehold.co/300x300/4682B4/FFFFFF?text=Dolphin') center/cover; }
+    .wolf::before { background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://placehold.co/300x300/696969/FFFFFF?text=Wolf') center/cover; }
+    .bird::before { background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://placehold.co/300x300/FFD700/FFFFFF?text=Bird') center/cover; }
+    .frog::before { background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://placehold.co/300x300/228B22/FFFFFF?text=Frog') center/cover; }
+
+    /* Pressed animation */
+    .pressed {
+      transform: scale(0.95) translateY(5px);
+      box-shadow: 0 3px 10px rgba(255, 215, 0, 0.8);
+      opacity: 0.9;
+    }
+
+    /* Hover effects */
+    .animal-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .animal-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Volume control */
+    .volume-control {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 20px;
+      max-width: 500px;
+      margin: 25px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .volume-label {
+      color: #FFD700;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .volume-slider {
+      -webkit-appearance: none;
+      width: 200px;
+      height: 10px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.3);
+      outline: none;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #FF4500;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+    }
+
+    /* Instructions */
+    .instructions {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 25px;
+      max-width: 800px;
+      margin: 30px auto;
+      color: white;
+    }
+
+    .instructions h2 {
+      color: #FFD700;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      font-family: 'Fredoka One', cursive;
+    }
+
+    .instruction-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .instruction-card {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 20px;
+      border-radius: 15px;
+      text-align: left;
+    }
+
+    .instruction-card h3 {
+      color: #FFB6C1;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+
+    .keys-display {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .key {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #FFD700;
+    }
+
+    footer {
+      color: #E0E0E0;
+      font-family: 'Poppins', sans-serif;
+      margin-top: 40px;
+      padding: 20px;
+      font-size: 1.1rem;
+    }
+
+    .paw-icon {
+      color: #FFD700;
+      margin: 0 5px;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      #title {
+        font-size: 3rem;
+      }
+      
+      .subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .animal-btn {
+        width: 120px;
+        height: 120px;
+        font-size: 2.8rem;
+      }
+      
+      .animal-set {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      #title {
+        font-size: 2.5rem;
+      }
+      
+      .animal-btn {
+        width: 100px;
+        height: 100px;
+        font-size: 2.2rem;
+      }
+      
+      .animal-set {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 id="title">Animal Sound Kit 🐾</h1>
+      <p class="subtitle">Click the animals or press the keys Q, W, E, R, T, Y, U to hear their sounds!</p>
+    </div>
+
+    <div class="volume-control">
+      <span class="volume-label">🔊 Volume</span>
+      <input type="range" min="0" max="1" step="0.1" value="0.7" class="volume-slider" id="volumeSlider">
+      <span id="volumeValue" class="volume-label">70%</span>
+    </div>
+
+    <div class="animal-set">
+      <button class="animal-btn lion" data-key="q">
+        <span class="key-indicator">Q</span>
+        <span class="animal-name">Lion</span>
+      </button>
+      <button class="animal-btn elephant" data-key="w">
+        <span class="key-indicator">W</span>
+        <span class="animal-name">Elephant</span>
+      </button>
+      <button class="animal-btn monkey" data-key="e">
+        <span class="key-indicator">E</span>
+        <span class="animal-name">Monkey</span>
+      </button>
+      <button class="animal-btn dolphin" data-key="r">
+        <span class="key-indicator">R</span>
+        <span class="animal-name">Dolphin</span>
+      </button>
+      <button class="animal-btn wolf" data-key="t">
+        <span class="key-indicator">T</span>
+        <span class="animal-name">Wolf</span>
+      </button>
+      <button class="animal-btn bird" data-key="y">
+        <span class="key-indicator">Y</span>
+        <span class="animal-name">Bird</span>
+      </button>
+      <button class="animal-btn frog" data-key="u">
+        <span class="key-indicator">U</span>
+        <span class="animal-name">Frog</span>
+      </button>
+    </div>
+
+    <div class="instructions">
+      <h2>How to Play 🎮</h2>
+      <div class="instruction-grid">
+        <div class="instruction-card">
+          <h3>🖱️ Click</h3>
+          <p>Click on any animal button to hear its sound</p>
+        </div>
+        <div class="instruction-card">
+          <h3>⌨️ Keyboard</h3>
+          <p>Press the keys shown on the buttons</p>
+          <div class="keys-display">
+            <span class="key">Q</span>
+            <span class="key">W</span>
+            <span class="key">E</span>
+            <span class="key">R</span>
+            <span class="key">T</span>
+            <span class="key">Y</span>
+            <span class="key">U</span>
+          </div>
+        </div>
+        <div class="instruction-card">
+          <h3>🔊 Volume</h3>
+          <p>Adjust the volume using the slider above</p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      Made with <span class="paw-icon">❤️🐾</span> for animal lovers
+    </footer>
+  </div>
+
+  <script>
+    // Get elements
+    const animalButtons = document.querySelectorAll('.animal-btn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeValue = document.getElementById('volumeValue');
+    
+    // Set initial volume display
+    volumeValue.textContent = `${Math.round(volumeSlider.value * 100)}%`;
+    
+    // Update volume display when slider changes
+    volumeSlider.addEventListener('input', function() {
+      volumeValue.textContent = `${Math.round(this.value * 100)}%`;
+    });
+    
+    // Function to play sound (simulated since we don't have actual sound files)
+    function makeSound(key) {
+      // In a real implementation, you would play actual sound files:
+      
+      switch(key) {
+        case 'q': new Audio('sounds/lion.wav').play(); break;
+        case 'w': new Audio('sounds/kick-bass.mp3').play(); break;
+        case 'e': new Audio('sounds/snare.mp3').play(); break;
+        case 'r': new Audio('sounds/tom-1.mp3').play(); break;
+        case 't': new Audio('sounds/wolf-howl.mp3').play(); break;
+        case 'y': new Audio('sounds/bird-chirp.mp3').play(); break;
+        case 'u': new Audio('sounds/frog-croak.mp3').play(); break;
+        default: console.log('Key not found:', key);
+      }
+      
+      
+      // For demonstration purposes, we'll log to console
+      const animalNames = {
+        'q': 'Lion 🦁',
+        'w': 'Elephant 🐘',
+        'e': 'Monkey 🐵',
+        'r': 'Dolphin 🐬',
+        't': 'Wolf 🐺',
+        'y': 'Bird 🐦',
+        'u': 'Frog 🐸'
+      };
+      
+      console.log(`Playing sound for: ${animalNames[key] || key}`);
+      
+      // Create visual feedback
+      const button = document.querySelector(`.animal-btn[data-key="${key}"]`);
+      if (button) {
+        buttonAnimation(button);
+      }
+    }
+    
+    // Function for button animation
+    function buttonAnimation(button) {
+      button.classList.add('pressed');
+      setTimeout(() => {
+        button.classList.remove('pressed');
+      }, 150);
+    }
+    
+    // Add click event listeners to buttons
+    animalButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const key = this.getAttribute('data-key');
+        makeSound(key);
+      });
+    });
+    
+    // Add keyboard event listener
+    document.addEventListener('keydown', function(event) {
+      const key = event.key.toLowerCase();
+      // Only respond to our animal keys
+      if (['q', 'w', 'e', 'r', 't', 'y', 'u'].includes(key)) {
+        makeSound(key);
+        // Prevent default behavior for these keys
+        event.preventDefault();
+      }
+    });
+    
+    // Add touch support for mobile devices
+    animalButtons.forEach(button => {
+      button.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        const key = this.getAttribute('data-key');
+        makeSound(key);
+      });
+    });
+  </script>
+</body>
+</html>
+
